@@ -1,7 +1,10 @@
 package com.example.l6
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -47,5 +50,15 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = CustomRecyclerAdapter(items)
         recyclerView.adapter = adapter
+
+        // Найдите кнопку
+        val button: ImageButton = findViewById(R.id.imageButton4)
+
+        // Установите слушатель нажатия кнопки
+        button.setOnClickListener {
+            // Создайте интент для перехода на другую Activity
+            val intent = Intent(this, SecondActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
