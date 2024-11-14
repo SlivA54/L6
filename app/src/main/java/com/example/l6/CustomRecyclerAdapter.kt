@@ -22,7 +22,7 @@ class CustomRecyclerAdapter(private val items: List<Item>) : RecyclerView.Adapte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.itemText.text = item.text
-        holder.itemImage.setImageResource(item.image)
+        item.image?.let { holder.itemImage.setImageResource(it) }
     }
 
     override fun getItemCount(): Int {
@@ -30,4 +30,4 @@ class CustomRecyclerAdapter(private val items: List<Item>) : RecyclerView.Adapte
     }
 }
 
-data class Item(val text: String, val image: Int)
+data class Item(val text: String, val image: Int?)
