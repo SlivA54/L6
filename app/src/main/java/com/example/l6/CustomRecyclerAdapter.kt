@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CustomRecyclerAdapter(private val items: List<Item>) : RecyclerView.Adapter<CustomRecyclerAdapter.ViewHolder>() {
+class CustomRecyclerAdapter(private val items: List<Item>, private val onClickListener: (Item) -> Unit) : RecyclerView.Adapter<CustomRecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemImage: ImageView = itemView.findViewById(R.id.item_image)
@@ -24,6 +24,11 @@ class CustomRecyclerAdapter(private val items: List<Item>) : RecyclerView.Adapte
         holder.itemText.text = item.text
         // You can also set the image here if needed
         // holder.itemImage.setImageResource(item.imageResource)
+
+        // Добавляем слушатель кликов
+        holder.itemView.setOnClickListener {
+            onClickListener(item)
+        }
     }
 
     override fun getItemCount(): Int {

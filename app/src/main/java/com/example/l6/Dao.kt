@@ -13,4 +13,6 @@ interface Dao {
 
     @Query("SELECT * FROM items")
     suspend fun getAllItems(): List<Item>
+    @Query("SELECT * FROM items WHERE id = :id")
+    suspend fun getItemById(id: Int): Item?
 }

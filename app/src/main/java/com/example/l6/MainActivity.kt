@@ -29,9 +29,14 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = CustomRecyclerAdapter(items)
-        recyclerView.adapter = adapter
 
+        // Создаем адаптер с слушателем кликов
+        adapter = CustomRecyclerAdapter(items) { item ->
+            val intent = Intent(this, SecondActivity::class.java)
+            intent.putExtra("ITEM_ID", item.id)
+            startActivity(intent)
+        }
+        recyclerView.adapter = adapter
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -71,8 +76,6 @@ class MainActivity : AppCompatActivity() {
             items.clear()
             items.addAll(db.itemDao().getAllItems())
             adapter.notifyDataSetChanged()
-
         }
     }
-
 }
