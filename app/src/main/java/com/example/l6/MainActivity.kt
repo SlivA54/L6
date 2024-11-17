@@ -30,12 +30,18 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Создаем адаптер с слушателем кликов
-        adapter = CustomRecyclerAdapter(items) { item ->
-            val intent = Intent(this, SecondActivity::class.java)
-            intent.putExtra("ITEM_ID", item.id)
-            startActivity(intent)
-        }
+        // Создаем адаптер с слушателями кликов
+        adapter = CustomRecyclerAdapter(items,
+            { item -> // onItemClick
+                val intent = Intent(this, SecondActivity::class.java)
+                intent.putExtra("ITEM_ID", item.id)
+                intent.putExtra("ITEM_NAME", item.name)
+                startActivity(intent)
+            },
+            { item -> // onDeleteClick
+                deleteItem(item)
+            }
+        )
         recyclerView.adapter = adapter
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -75,6 +81,14 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             items.clear()
             items.addAll(db.itemDao().getAllItems())
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun deleteItem(item: Item) {
+        lifecycleScope.launch {
+            db.itemDao().deleteItem(item)
+            loadItems()
             adapter.notifyDataSetChanged()
         }
     }

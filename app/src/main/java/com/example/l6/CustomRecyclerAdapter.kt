@@ -3,15 +3,20 @@ package com.example.l6
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CustomRecyclerAdapter(private val items: List<Item>, private val onClickListener: (Item) -> Unit) : RecyclerView.Adapter<CustomRecyclerAdapter.ViewHolder>() {
+class CustomRecyclerAdapter(
+    private val items: List<Item>,
+    private val onItemClick: (Item) -> Unit,
+    private val onDeleteClick: (Item) -> Unit
+) : RecyclerView.Adapter<CustomRecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemImage: ImageView = itemView.findViewById(R.id.item_image)
-        val itemText: TextView = itemView.findViewById(R.id.item_text)
+        val itemName: TextView = itemView.findViewById(R.id.item_text)
+        val deleteButton: ImageButton = itemView.findViewById(R.id.delete_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,13 +26,14 @@ class CustomRecyclerAdapter(private val items: List<Item>, private val onClickLi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.itemText.text = item.text
-        // You can also set the image here if needed
-        // holder.itemImage.setImageResource(item.imageResource)
+        holder.itemName.text = item.name
 
-        // Добавляем слушатель кликов
         holder.itemView.setOnClickListener {
-            onClickListener(item)
+            onItemClick(item)
+        }
+
+        holder.deleteButton.setOnClickListener {
+            onDeleteClick(item)
         }
     }
 

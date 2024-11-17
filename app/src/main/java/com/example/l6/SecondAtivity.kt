@@ -24,6 +24,8 @@ class SecondActivity : AppCompatActivity() {
         itemNameInput = findViewById(R.id.name)
 
         val itemId = intent.getStringExtra("ITEM_ID")
+        val itemName = intent.getStringExtra("ITEM_NAME")
+
         if (itemId!= null) {
             GlobalScope.launch(Dispatchers.IO) {
                 val item = db.itemDao().getItemById(itemId.toInt())
@@ -34,6 +36,8 @@ class SecondActivity : AppCompatActivity() {
                     }
                 }
             }
+        } else if (itemName!= null) {
+            itemNameInput.editText?.setText(itemName)
         }
 
         // Example of how to set up a button to return data
