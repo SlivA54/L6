@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             items.clear()
             items.addAll(db.itemDao().getAllItems())
             adapter.notifyDataSetChanged()
+
         }
     }
 
