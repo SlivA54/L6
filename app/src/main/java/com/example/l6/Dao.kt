@@ -12,6 +12,8 @@ interface Dao {
     @Insert
     suspend fun insertItem(item: Item)
 
+    @Query("SELECT * FROM items WHERE name = :name")
+    suspend fun getItemByName(name: String): Item?
     @Query("SELECT * FROM items")
     suspend fun getAllItems(): List<Item>
     @Query("SELECT * FROM items WHERE id = :id")
